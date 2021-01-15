@@ -21,7 +21,7 @@ export interface MainPageState {
     cvIdSelected:any;
 }
 
-const styles = createStyles({
+const styles = createStyles({  
 	cvCard: {
         width:'230px',
         height:'400px',
@@ -73,6 +73,7 @@ const styles = createStyles({
 
 class MainPage extends React.Component<MainPageProps, MainPageState> {
     private service:ServiceApi;
+    private nr:number=0;
     constructor(props:MainPageProps)
     {
         super(props);
@@ -88,10 +89,34 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
 
     async componentDidMount()
     {
+
+        var idJob;
+        if(localStorage.getItem('job')){
+            idJob=localStorage.getItem('job');
+        }
+        else{
+            idJob=0;
+        }
         localStorage.clear();
+
         const jobs =await this.service.getJobs();
+        console.log(jobs);
+        
+        const id=jobs.data[0].id;
+        let l;
+        if(idJob===0){
+            l=await this.service.getCv(id);
+            this.nr=l.data.length;
+
+        }
+        else{
+            l=await this.service.getCv(idJob);
+            this.nr=l.data.length;
+
+        }
         this.setState({
             jobsList:jobs.data,
+            cvList:l.data
         })
     }
 
@@ -178,13 +203,16 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
         try{
             localStorage.setItem("job",id);
             const data =await this.service.getCv(id);
+            this.nr=data.data.length;
             this.setState({
                 cvList:data.data,
             })
         }catch(err)
         {
             console.log(err);
+            this.nr=0;
             this.setState({
+
                 cvList:[],
             })
         }
@@ -250,7 +278,7 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
                 >
                     <DialogTitle id="alert-dialog-title">{"Alegeti o varianta"}</DialogTitle>
                     <Button variant="contained" color="primary" onClick={this.showCv}>
-                                    View
+                                    Edit
                     </Button>
                     <Button variant="contained" color="primary" onClick={this.deleteCv}>
                                     Delete
@@ -266,7 +294,7 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
                 >
                     <DialogTitle id="alert-dialog-title">{"Alegeti o varianta"}</DialogTitle>
                     <Button variant="contained" color="primary" onClick={this.showJob}>
-                                    View
+                                    Edit
                     </Button>
                     <Button variant="contained" color="primary" onClick={this.deleteJob}>
                                     Delete
@@ -291,7 +319,7 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
                     <div className = {classes.cvListBox}>
                         <Card className={classes.cvCard}>
                             <div className={classes.jobList}>
-                                <CvlistComponent selectCv={this.showModalCv} items={this.state.cvList} /></div>
+                                <CvlistComponent selectCv={this.showModalCv} items={this.state.cvList} nr={this.nr}/></div>
                             <div className={classes.jobButtonBox}>
                                 <Button variant="contained" color="primary" onClick={this.newCV}>
                                     New CV

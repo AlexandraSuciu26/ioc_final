@@ -45,6 +45,7 @@ class UpdateCVPage extends React.Component<UpdateCVPageProps, UpdateCVPageState>
                 educatie:"",
                 munca:"",
                 nume:"",
+                casatorit:"",
                 buttonText:"Save",
                 buttonFunction:this.save
             })
@@ -66,6 +67,7 @@ class UpdateCVPage extends React.Component<UpdateCVPageProps, UpdateCVPageState>
             educatie:job.education,
             munca:job.professional,
             nume:job.name,
+            casatorit:job.statut,
             buttonText:"Update",
             buttonFunction:this.update
         })
@@ -83,6 +85,7 @@ class UpdateCVPage extends React.Component<UpdateCVPageProps, UpdateCVPageState>
                 professional:this.state.munca,
                 sex:this.state.gen,
                 job_id:idjob,
+                statutSocial:this.state.casatorit
             }
             await this.service.saveCv(data);
         }catch(err)

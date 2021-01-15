@@ -5,7 +5,7 @@ import '../JobsList.css';
 export interface CvListProps {
   items: any;
   selectCv:any;
-  
+  nr:any;
 }
 
 export interface CVListState {
@@ -40,7 +40,7 @@ class JobsList2 extends React.Component<CvListProps, CVListState> {
   render() {
     return (
     <div className={'container'}>
-        <h2>Lista Cv-uri</h2>
+        <h2>{'Lista Cv-uri '+this.props.nr}</h2>
         <this.SortableList items={this.props.items} onSortEnd={this.onSortEnd} distance={1} lockAxis="y"/>
     </div>
     )

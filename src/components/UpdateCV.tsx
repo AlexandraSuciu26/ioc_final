@@ -186,9 +186,18 @@ class UpdateCV extends React.Component<UpdateCVProps, UpdateCVState> {
                     <div className={classes.genBox}>
                         <div>
                             <label className = {classes.genLabel}>Selectati genul: </label>
-                            <RadioGroup aria-label="gender" name="gender1" value={gen} onChange={this.handleData("gen")} row>
+                            <RadioGroup aria-label="gender" name="gender1" value={gen} onChange={this.handleData("gen")}>
                                 <FormControlLabel value="male" control={<Radio />} label="Barbat" />
                                 <FormControlLabel value="female" control={<Radio />} label="Femeie" />
+                            </RadioGroup>
+                        </div>
+                    </div>
+                    <div className={classes.genBox}>
+                        <div className={classes.genContinut}>
+                            <label className = {classes.genLabel}>Stare conjugala: </label>
+                            <RadioGroup aria-label="Stare conjugala" name="gender1" value={casatorit} onChange={this.handleData("casatorit")}>
+                                <FormControlLabel value="casatorit" control={<Radio />} label="Casatorit(a)" />
+                                <FormControlLabel value="necasatorit" control={<Radio />} label="Necasatorit(a)" />
                             </RadioGroup>
                         </div>
                     </div>
